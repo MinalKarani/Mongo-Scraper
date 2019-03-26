@@ -36,6 +36,9 @@ mongoose.connect("mongodb://localhost/mongoHeadlines", { useNewUrlParser: true }
 // Routes
 
 app.get("/", function(req, res) {
+  var hbsObject={
+    isMain:true
+  }
   res.render("index");
 });
 
@@ -83,7 +86,8 @@ app.get("/scrape", function(req, res) {
     var hbsObject={
       scraped:true
     }
-    res.write("<div class=modal tabindex=-1 role=dialog><button type=button class=close data-dismiss=modal aria-label=Close><span aria-hidden=true></span></button><div class=modal-body><p>Added 20 Articles here.</p></div><div class=modal-footer> <button type=button class=btn btn-secondary data-dismiss=modal>Close</button></div></div>");
+    //res.send("<div class=modal tabindex=-1 role=dialog><button type=button class=close data-dismiss=modal aria-label=Close><span //aria-hidden=true></span></button><div class=modal-body><p>Added 20 Articles here.</p></div><div class=modal-footer> <button //type=button class=btn btn-secondary data-dismiss=modal>Close</button></div></div>");
+    res.send("Scrape complete;")
   });
 });
 
@@ -93,7 +97,8 @@ app.get("/articles", function(req, res) {
   db.Article.find({})
     .then(function(dbArticle) {
       var hbsObject={
-        data:dbArticle
+        data:dbArticle,
+        isArticle:true
       }
       // If we were able to successfully find Articles, send them back to the client
       res.render("index",hbsObject);

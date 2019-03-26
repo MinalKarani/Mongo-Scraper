@@ -1,3 +1,4 @@
+<div id="wrapper">
 <nav class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
 
     <div class="container">
@@ -25,46 +26,40 @@
     </div>
   </nav>
    
-<div id="wrapper">
-      <section id="section1">
 
-      </section>
-      <section id="section2">
-     <div id="container">
-      {{#each data}}
-      <div id="container">
+      <div class="jumbotron text-center">
+		<h1>Mongo Scraper</h1>
+	</div>
+      
+   {{#if isArticle}}
+   <script type="text/javascript">
+        $(function () {
+            $("#mainPg").css("display","none");
+        });
+    </script>
+	{{#each data}}
 
-      <div id="title">
-          <p data-id='{{_id}}'>
-          <strong>{{title}}</strong><br />
-          <button id="comment">Add Comments</button>
-      </div>
-      <div class="summary">
-          <a href='https://www.nytimes.com{{link}} + '>https://www.nytimes.com + {{link}} </a><br />
-          <span>{{summary}} </span></p>
-      </div>
-      </div>
-      {{/each}}
+	<div class="card">
+		<div class="card-header">
+			<h5>
+				<a class="article-link" target="_blank" rel="noopener noreferrer" href='https://www.nytimes.com{{link}}'>{{title}}</a>
 
+				
+			<button class="save" type="button" attrId ={{_id}}>Save</button>
+			</h5>
+
+		</div>
+		<div class="card-body">
+			<p class="card-text">{{summary}}</p>
+
+		</div>
+	</div>
+
+
+	{{/each}}
+      
+    {{/if}}
+      <div id="mainPg">
+                  <p>Oh, Looks like we dont have any new articles.</p>
       </div>
-      </section>
- <div class="modal" id="myModal" tabindex="-1" role="dialog">
-      <div class="modal-dialog" role="document">
-      <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Mongo Scraper</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>Added 20 Articles here.</p>
-      </div>
-      <div class="modal-footer">
-         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-      </div>
-    </div>
-  </div>
-</div>
-      <div id="notes"></d iv>
 </div>

@@ -3,17 +3,36 @@
         background-color: #F2F6D0;
         
     }
+    .card {
+        border: 1px solid black;
+        padding-left: 20px;
+    }
+    .card-header{
+        font-weight: bolder;
+    }
+    .save {
+        /*position: absolute;*/
+        top: 20px;
+        right: 20px;
+    }
+    #mainPg{
+        padding:20px;
+        background-color: rgb(15, 14, 13);
+        color:white;
+        text-align: center;
+        font-size: 20px;
+    }
       #wrapper {
         width: 960px;
         margin-left: auto;
         margin-right: auto;
         padding-top: 5%;
       }
-      #section1{
+      .jumbotron{
         background-image: url("assets/img/background.jpg");
         background-repeat: no-repeat;
         background-size: cover;
-        height:800px;
+        height:400px;
       }
       #articles {
         display: inline-block;
