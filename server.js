@@ -25,32 +25,46 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 // Make public a static folder
 app.use(express.static("public"));
+var exphbs = require("express-handlebars");
+
+app.engine("handlebars", exphbs({ defaultLayout: "main" }));
+app.set("view engine", "handlebars");
 
 // Connect to the Mongo DB
-mongoose.connect("mongodb://localhost/unit18Populater", { useNewUrlParser: true });
+mongoose.connect("mongodb://localhost/mongoHeadlines", { useNewUrlParser: true });
 
 // Routes
+
+app.get("/", function(req, res) {
+  res.render("index");
+});
 
 // A GET route for scraping the echoJS website
 app.get("/scrape", function(req, res) {
   // First, we grab the body of the html with axios
-  axios.get("http://www.echojs.com/").then(function(response) {
+  axios.get("https://www.nytimes.com/section/world").then(function(response) {
     // Then, we load that into cheerio and save it to $ for a shorthand selector
     var $ = cheerio.load(response.data);
-
+    
     // Now, we grab every h2 within an article tag, and do the following:
-    $("article h2").each(function(i, element) {
+    $("li a").each(function(i, element) {
+      
       // Save an empty result object
       var result = {};
 
       // Add the text and href of every link, and save them as properties of the result object
       result.title = $(this)
-        .children("a")
+        .children("h2")
         .text();
       result.link = $(this)
-        .children("a")
         .attr("href");
-
+      result.summary = $(this)
+          .children("p")
+          .text();
+      result.imag = $(this)
+          .children("img")
+          .attr("src");
+      //result.image.contentType = "jpg";
       // Create a new Article using the `result` object built from scraping
       db.Article.create(result)
         .then(function(dbArticle) {
@@ -61,10 +75,15 @@ app.get("/scrape", function(req, res) {
           // If an error occurred, log it
           console.log(err);
         });
+      
     });
+ 
 
     // Send a message to the client
-    res.send("Scrape Complete");
+    var hbsObject={
+      scraped:true
+    }
+    res.write("<div class=modal tabindex=-1 role=dialog><button type=button class=close data-dismiss=modal aria-label=Close><span aria-hidden=true></span></button><div class=modal-body><p>Added 20 Articles here.</p></div><div class=modal-footer> <button type=button class=btn btn-secondary data-dismiss=modal>Close</button></div></div>");
   });
 });
 
@@ -73,8 +92,11 @@ app.get("/articles", function(req, res) {
   // Grab every document in the Articles collection
   db.Article.find({})
     .then(function(dbArticle) {
+      var hbsObject={
+        data:dbArticle
+      }
       // If we were able to successfully find Articles, send them back to the client
-      res.json(dbArticle);
+      res.render("index",hbsObject);
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
@@ -94,7 +116,7 @@ app.get("/articles/:id", function(req, res) {
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
-      res.json(err);
+    res.json(err);
     });
 });
 

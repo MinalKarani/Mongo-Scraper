@@ -1,0 +1,70 @@
+<nav class="navbar navbar-inverse  navbar-fixed-top" role="navigation">
+
+    <div class="container">
+      <div class="navbar-header">
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar"
+          aria-expanded="false" aria-controls="navbar">
+          <span class="sr-only">Mongo Scraper</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" rel="home" href="#" title="expenselogo">
+          <img style="max-width:100px; margin-top: -12px; margin-left:-65px;" src="assets/img/logo.png">
+        </a>
+      </div>
+      <div id="navbar" class="navbar-collapse collapse">
+        <ul class="nav navbar-nav">
+          <li><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+              Home</a></li>
+          <li><a href="#section2">
+              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>Saved Articles</a></li>
+          <li><a href="/scrape"><button class="btn btn-warning" data-behaviour="myModal">Scrape New Articles</button></a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+   
+<div id="wrapper">
+      <section id="section1">
+
+      </section>
+      <section id="section2">
+     <div id="container">
+      {{#each data}}
+      <div id="container">
+
+      <div id="title">
+          <p data-id='{{_id}}'>
+          <strong>{{title}}</strong><br />
+          <button id="comment">Add Comments</button>
+      </div>
+      <div class="summary">
+          <a href='https://www.nytimes.com{{link}} + '>https://www.nytimes.com + {{link}} </a><br />
+          <span>{{summary}} </span></p>
+      </div>
+      </div>
+      {{/each}}
+
+      </div>
+      </section>
+ <div class="modal" id="myModal" tabindex="-1" role="dialog">
+      <div class="modal-dialog" role="document">
+      <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Mongo Scraper</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <p>Added 20 Articles here.</p>
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+      <div id="notes"></d iv>
+</div>
