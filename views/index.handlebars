@@ -16,11 +16,11 @@
       </div>
       <div id="navbar" class="navbar-collapse collapse">
         <ul class="nav navbar-nav">
-          <li><a href="#"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>
+          <li><a href="/"><span class="glyphicon glyphicon-home" aria-hidden="true"></span>
               Home</a></li>
-          <li><a href="#section2">
-              <span class="glyphicon glyphicon-info-sign" aria-hidden="true"></span>Saved Articles</a></li>
-          <li><a href="/scrape"><button class="btn btn-warning" data-behaviour="myModal">Scrape New Articles</button></a></li>
+          <li><a href="/saved">
+              <span class="glyphicon glyphicon-save-file" aria-hidden="true"></span> Saved Articles</a></li>
+          <li><a href="/scrape"><button id="scrape" class="btn btn-warning" data-behaviour="myModal">Scrape New Articles</button></a></li>
         </ul>
       </div>
     </div>
@@ -44,8 +44,13 @@
 			<h5>
 				<a class="article-link" target="_blank" rel="noopener noreferrer" href='https://www.nytimes.com{{link}}'>{{title}}</a>
 
-				
-			<button class="save" type="button" attrId ={{_id}}>Save</button>
+			{{#if isSaved}}
+			<button class="comment" type="button" attrId ={{_id}}>Add Comment</button>
+                  <button class="delete" type="button" attrId ={{_id}}>Delete Article</button>
+                  
+                  {{else}}
+                  	<button class="save" type="button" attrId ={{_id}}>Save</button>
+                  {{/if}}
 			</h5>
 
 		</div>

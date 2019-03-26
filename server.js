@@ -35,11 +35,32 @@ mongoose.connect("mongodb://localhost/mongoHeadlines", { useNewUrlParser: true }
 
 // Routes
 
+// Route for getting all Articles from the db
 app.get("/", function(req, res) {
-  var hbsObject={
-    isMain:true
-  }
-  res.render("index");
+  // Grab every document in the Articles collection
+  db.Article.find({})
+    .then(function(dbArticle) {
+      
+      //If no articles in db
+      if(dbArticle.length===0)
+      {
+        res.render("index");
+      }
+      else{
+        var hbsObject={
+          data:dbArticle,
+          isArticle:true,
+          isSaved:false
+
+        }
+      // If we were able to successfully find Articles, send them back to the client
+      res.render("index",hbsObject);
+      }
+    })
+    .catch(function(err) {
+      // If an error occurred, send it to the client
+      res.json(err);
+    });
 });
 
 // A GET route for scraping the echoJS website
@@ -73,35 +94,48 @@ app.get("/scrape", function(req, res) {
         .then(function(dbArticle) {
           // View the added result in the console
           console.log(dbArticle);
+          res.redirect("/");
         })
         .catch(function(err) {
           // If an error occurred, log it
-          console.log(err);
-        });
+          console.log("Error");
+          });
       
-    });
+    })
  
-
     // Send a message to the client
     var hbsObject={
       scraped:true
     }
     //res.send("<div class=modal tabindex=-1 role=dialog><button type=button class=close data-dismiss=modal aria-label=Close><span //aria-hidden=true></span></button><div class=modal-body><p>Added 20 Articles here.</p></div><div class=modal-footer> <button //type=button class=btn btn-secondary data-dismiss=modal>Close</button></div></div>");
-    res.send("Scrape complete;")
+    
+  }).catch(function(err) {
+    // If an error occurred, log it
+    console.log("Error");
   });
 });
 
-// Route for getting all Articles from the db
-app.get("/articles", function(req, res) {
+
+// Route for getting saved Articles from the db
+app.get("/saved", function(req, res) {
   // Grab every document in the Articles collection
-  db.Article.find({})
+  db.Article.find({saved:true})
     .then(function(dbArticle) {
-      var hbsObject={
-        data:dbArticle,
-        isArticle:true
+
+      //If no saved Articles in db
+      if(dbArticle.length===0)
+      {
+        res.render("index");
       }
+      else{
+        var hbsObject={
+          data:dbArticle,
+          isArticle:true,
+          isSaved:true
+        }
       // If we were able to successfully find Articles, send them back to the client
       res.render("index",hbsObject);
+      }
     })
     .catch(function(err) {
       // If an error occurred, send it to the client
@@ -143,6 +177,28 @@ app.post("/articles/:id", function(req, res) {
       // If an error occurred, send it to the client
       res.json(err);
     });
+});
+
+
+
+// Mark an article as saved
+app.put("/save/:id", function (req, res) {
+
+
+  db.Article.findOneAndUpdate({ _id: req.params.id }, { "saved": true }, { new: true })
+
+
+    .then(function (dbArticle) {
+      // View the updated result in the console
+      console.log(dbArticle);
+      res.send("Successfully saved");
+    })
+    .catch(function (err) {
+      // If an error occurred, log it
+      console.log(err);
+      res.send("Error occurred saving article");
+    });
+
 });
 
 // Start the server

@@ -1,8 +1,35 @@
 // Grab the articles as a json
-$.getJSON("/articles", function(data) {
-  console.log("Succsess");
+//$.getJSON("/articles", function(data) {
+//  console.log("Succsess");
+//});
+
+$.getJSON("/saved", function(data) {
+  console.log("Saved Articles");
 });
 
+$(document).on("click", ".save", function() {
+  var thisId = $(this).attr("attrId");
+  $.ajax({
+    method: "PUT",
+    url: "/save/" + thisId
+  })
+    // With that done, add the note information to the page
+    .then(function(data) {
+      console.log(data);
+    });
+});
+
+$(document).on("click", "#scrape", function() {
+  
+  $.ajax({
+    method: "GET",
+    url: "/scrape"
+  })
+    // With that done, add the note information to the page
+    .then(function(err) {
+      console.log(err);
+    });
+});
 
 // Whenever someone clicks a p tag
 $(document).on("click", "p", function() {
