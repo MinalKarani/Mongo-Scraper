@@ -1,5 +1,5 @@
 
-      body { 
+     body { 
         background-color: #F2F6D0;
         
     }
@@ -63,10 +63,7 @@
         height: 200px;
         font-size: 18px;
       }
-      #title{
-          background-color:rgb(163, 110, 59);
-          color: white;
-      }
+     
       #container{
           background-color: white;
           padding-bottom: 10px;
@@ -77,6 +74,9 @@
     #comment{
         float:right;
     }
+    .closeNote{
+        margin-left: 20px;
+    }
     .comment,.delete{
         background-color: rgb(56, 23, 23);
         color:white;
@@ -84,4 +84,14 @@
         padding:10px;
         float: right;
         margin-right: 10px;
+    }
+    footer{
+        background-color: #222;
+        border-color: #080808;
+        border-width: 0 0 1px;
+        height:40px;
+    }
+    footer p{
+        text-align: center;
+        color:#f0ad4e;
     }
