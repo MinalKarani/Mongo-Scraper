@@ -17,6 +17,53 @@ $(document).on("click", ".save", function() {
     .then(function(data) {
       console.log(data);
     });
+    location.reload();
+});
+
+$(document).on("click", ".delete", function() {
+  var thisId = $(this).attr("attrId");
+  $.ajax({
+    method: "DELETE",
+    url: "/delete/" + thisId
+  })
+    // With that done, add the note information to the page
+    .then(function(data) {
+      console.log(data);
+    });
+    location.reload();
+});
+
+//opens Modal to save Notes for 'articleNo'
+$(document).on("click", ".comment", function() {
+var articleNo = $(this).attr("attrId")
+  $("#articleNo").text("Notes for article: " + articleNo);
+  
+  $("#saveNote").attr("articleNo", articleNo);
+  $('#notesModal').show();
+
+});
+
+//on Click of Save Note button
+$(document).on("submit", "#saveNote", function(event) {
+  event.preventDefault();
+  
+  var thisId = $(this).attr("articleNo");
+  console.log(thisId);
+  var notes={
+    // Value taken from note textarea
+    note:$("#note").val.trim(),
+  };
+  
+  $.ajax({
+    method: "POST",
+    url: "/savenote/" + thisId,
+    data:notes
+  })
+    // With that done, add the note information to the page
+    .then(function(data) {
+      console.log(data);
+    });
+    location.reload();
 });
 
 $(document).on("click", "#scrape", function() {
@@ -29,6 +76,20 @@ $(document).on("click", "#scrape", function() {
     .then(function(err) {
       console.log(err);
     });
+
+});
+
+$(document).on("click", "#scrapeClear", function() {
+  
+  $.ajax({
+    method: "GET",
+    url: "/clearScrape"
+  })
+    // With that done, add the note information to the page
+    .then(function(err) {
+      console.log(err);
+    });
+
 });
 
 // Whenever someone clicks a p tag
@@ -88,8 +149,5 @@ $(document).on("click", "#savenote", function() {
       // Empty the notes section
       $("#notes").empty();
     });
-
-  // Also, remove the values entered in the input and textarea for note entry
-  $("#titleinput").val("");
-  $("#bodyinput").val("");
+  
 });

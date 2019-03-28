@@ -38,7 +38,7 @@ mongoose.connect("mongodb://localhost/mongoHeadlines", { useNewUrlParser: true }
 // Route for getting all Articles from the db
 app.get("/", function(req, res) {
   // Grab every document in the Articles collection
-  db.Article.find({})
+  db.Article.find({saved:false})
     .then(function(dbArticle) {
       
       //If no articles in db
@@ -107,14 +107,18 @@ app.get("/scrape", function(req, res) {
     var hbsObject={
       scraped:true
     }
-    //res.send("<div class=modal tabindex=-1 role=dialog><button type=button class=close data-dismiss=modal aria-label=Close><span //aria-hidden=true></span></button><div class=modal-body><p>Added 20 Articles here.</p></div><div class=modal-footer> <button //type=button class=btn btn-secondary data-dismiss=modal>Close</button></div></div>");
-    
+        
   }).catch(function(err) {
     // If an error occurred, log it
     console.log("Error");
   });
 });
 
+//Route to clear scrape
+app.get("/clearScrape", function(req, res) {
+  db.Article.drop({});
+  console.log("dropeed");
+});
 
 // Route for getting saved Articles from the db
 app.get("/saved", function(req, res) {
@@ -134,7 +138,7 @@ app.get("/saved", function(req, res) {
           isSaved:true
         }
       // If we were able to successfully find Articles, send them back to the client
-      res.render("index",hbsObject);
+      res.render("savedArticles",hbsObject);
       }
     })
     .catch(function(err) {
@@ -160,7 +164,7 @@ app.get("/articles/:id", function(req, res) {
 });
 
 // Route for saving/updating an Article's associated Note
-app.post("/articles/:id", function(req, res) {
+app.post("/savenote/:id", function(req, res) {
   // Create a new note and pass the req.body to the entry
   db.Note.create(req.body)
     .then(function(dbNote) {
@@ -197,6 +201,25 @@ app.put("/save/:id", function (req, res) {
       // If an error occurred, log it
       console.log(err);
       res.send("Error occurred saving article");
+    });
+
+});
+
+//delete Article
+app.delete("/delete/:id", function (req, res) {
+
+
+  db.Article.findOneAndUpdate({ _id: req.params.id }, { "saved": false }, { new: true })
+
+
+    .then(function (dbArticle) {
+      
+      //res.redirect("/saved");
+    })
+    .catch(function (err) {
+      // If an error occurred, log it
+      console.log(err);
+      res.send("Error occurred deleting article");
     });
 
 });

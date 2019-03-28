@@ -32,21 +32,15 @@
 		<h1>Mongo Scraper</h1>
 	</div>
       
-   {{#if isArticle}}
-   <script type="text/javascript">
-        $(function () {
-            $("#mainPg").css("display","none");
-        });
-    </script>
-	{{#each data}}
-
+{{#each data}}  
 	<div class="card">
 		<div class="card-header">
 			<h5>
 				<a class="article-link" target="_blank" rel="noopener noreferrer" href='https://www.nytimes.com{{link}}'>{{title}}</a>
 
-			     	<button class="save" type="button"  attrId ={{_id}}>Save</button>
-                 
+			    <button class="comment" type="button" data-toggle="modal" data-target="#notesModal" attrId ={{_id}}>Article Notes</button>
+          <button class="delete" type="button" attrId ={{_id}}>Delete from Saved</button>
+                  
 			</h5>
 
 		</div>
@@ -55,29 +49,31 @@
 
 		</div>
 	</div>
+{{/each}}
 
-
-	{{/each}}
-      
-    {{/if}}
-      <div id="mainPg">
-                  <p>Oh, Looks like we dont have any new articles.</p>
-      </div>
-
-  <div id="scrapeModal" class="modal fade" role="dialog">
+<div id="notesModal" class="modal fade" role="dialog">
       <div class="modal-dialog">
       <div class="modal-content">
 
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal"> &times;</button>
+          <h4 id="articleNo"></h4>
         </div>
 
         <div class="modal-body">
-         <h4>Scrape Complete</h4>
+         <form>
+          <div class="form-group">
+            <input type="text" class="form-control" id="addedNotes">
+          </div>
+          <div class="form-group">
+            <label for="note" class="col-form-label">New Note:</label>
+            <textarea class="form-control" id="note"></textarea>
+          </div>
+        </form>
         </div>
 
         <div class="modal-footer">
-          <button type="button" class="close" data-dismiss="modal">Ok</button>
+          <button type="submit" id="saveNote" class="btn btn-warning" data-dismiss="modal">Save Note</button>
         </div>
       </div>
     </div>
