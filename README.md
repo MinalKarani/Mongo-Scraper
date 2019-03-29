@@ -2,7 +2,7 @@
 
 ### live: https://pure-inlet-37313.herokuapp.com/
 
-This app lets users view and leave comments on the latest news from the Boston Globe. The app uses Cheerio to scrape news from the New York Times website.
+This app lets users view and leave comments on the latest news from the New York Times. The app uses Cheerio to scrape news from the New York Times website.
 
 Whenever a user visits the site, the app scrapes stories from the New York Times website and displays them for the user. Each scraped article is saved in the Mongo database. The app scrapes and displays the following information for each article:
 
