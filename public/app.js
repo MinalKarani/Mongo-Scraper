@@ -1,4 +1,7 @@
 
+$.getJSON("/", function(data) {
+  console.log("New Articles");
+});
 
 $.getJSON("/saved", function(data) {
   console.log("Saved Articles");
