@@ -127,7 +127,7 @@ $(document).on("click", "#scrapeClear", function() {
     .then(function(err) {
       console.log(err);
     });
-
+    location.reload();
 });
 
 

@@ -90,6 +90,10 @@
         border-color: #080808;
         border-width: 0 0 1px;
         height:40px;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        width:100%;
     }
     footer p{
         text-align: center;

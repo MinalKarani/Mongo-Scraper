@@ -116,8 +116,13 @@ app.get("/scrape", function(req, res) {
 
 //Route to clear scrape
 app.get("/clearScrape", function(req, res) {
-  db.Article.drop({});
-  console.log("dropeed");
+  db.Article.remove({}, function (err, doc) {
+    if (err) {
+      console.log(err);
+    } else {
+      console.log('removed all articles');
+    }
+  });
 });
 
 // Route for getting saved Articles from the db
